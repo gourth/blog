@@ -1,19 +1,27 @@
 import Layout from '../../components/layout';
 import { getAllPostIds, getPostData } from '../../lib/posts';
 import Head from 'next/head';
-import Date from '../../components/date';
+import DateComponent from '../../components/date'; // Renamed Date to DateComponent to avoid conflict with built-in Date
 import utilStyles from '../../styles/utils.module.css';
 
-export default function Post({ postData }) {
+interface PostProps {
+  postData: {
+    title: string;
+    date: string;
+    contentHtml: string;
+  };
+}
+
+export default function Post({ postData }: PostProps) {
   return (
-    <Layout>
+    <Layout home={""}>
       <Head>
         <title>{postData.title}</title>
       </Head>
       <article>
         <h1 className={utilStyles.headingXl}>{postData.title}</h1>
         <div className={utilStyles.lightText}>
-          <Date dateString={postData.date} />
+          <DateComponent dateString={postData.date} />
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
       </article>
